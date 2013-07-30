@@ -4,7 +4,7 @@
  * @Project NUKEVIET 3.x
  * @Author VINADES.,JSC (contact@vinades.vn)
  * @Copyright (C) 2013 VINADES.,JSC. All rights reserved
- * @Createdate Mon, 22 Jul 2013 03:30:24 GMT
+ * @Createdate Tue, 30 Jul 2013 12:46:48 GMT
  */
 
 if ( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
@@ -104,7 +104,7 @@ $global_config['site_phone']='';
 $global_config['site_timezone']='byCountry';
 $global_config['spadmin_add_admin']=1;
 $global_config['str_referer_blocker']=0;
-$global_config['timestamp']=1;
+$global_config['timestamp']=5;
 $global_config['upload_checking_mode']='strong';
 $global_config['useactivate']=2;
 $global_config['version']='3.5.00';
@@ -118,7 +118,7 @@ $global_config['send_errors_list']=256;
 $global_config['error_log_path']='logs/error_logs';
 $global_config['error_log_filename']='error_log';
 $global_config['error_log_fileext']='log';
-$global_config['error_send_email']='support@nukeviet.vn';
+$global_config['error_send_email']='tuanchungstu@gmail.com';
 $global_config['array_theme_type']=array(0=>'d', 1=>'t');
 $global_config['allowed_html_tags']=array('embed','object','param','a','b','blockquote','br','caption','col','colgroup','div','em','h1','h2','h3','h4','h5','h6','hr','i','img','li','p','span','strong','sub','sup','table','tbody','td','th','tr','u','ul');
 $global_config['engine_allowed']=array('Google'=>array('host_pattern'=>'google.', 'query_param'=>'q'), 'Yahoo'=>array('host_pattern'=>'yahoo.', 'query_param'=>'p'), 'MSN'=>array('host_pattern'=>'search.msn', 'query_param'=>'q'), 'Localhost'=>array('host_pattern'=>'localhost', 'query_param'=>'q'));
