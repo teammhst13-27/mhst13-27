@@ -1,5 +1,5 @@
 <!-- BEGIN: main -->
-<a class="btn btn-mini btn-primary" href="{ADD_LINK}"><i class="icon-plus icon-white"></i>  {LANG.add_teacher}</a>
+<span class="vnp-add"><a class="add_icon" href="{ADD_LINK}">{LANG.add_teacher}</a></span>
 <form action="{FORM_ACTION}" method="get">    
     <input name="{NV_NAME_VARIABLE}" type="hidden" value="{MODULE_NAME}" />
     <input name="{NV_OP_VARIABLE}" type="hidden" value="{OP}" />
@@ -9,6 +9,8 @@
         	<tr>
             	<td><strong>{LANG.search}</strong></td>
                 <td><input name="q" value="{SEARCH.q}" type="text" /></td>
+                <td>{LANG.type}</td>
+                <td>{TEACHER_TYPE}</td>
                 <td>{LANG.faculty}</td>
                 <td>{SEARCH_FACULTY}</td>
                 <td>{LANG.number}</td>
@@ -21,7 +23,7 @@
 
 <table class="tab1">
     <thead>
-        <td>{LANG.teacher_name}</td>
+    	<td>{LANG.teacher_name}</td>
         <td style="width:100px">{LANG.faculty}</td>
         <td style="width:150px">{LANG.status}</td>
         <td style="width:100px">{LANG.feature}</td>
@@ -51,5 +53,11 @@
     </tfoot>
 </table>
 
-<center>{PAGE_GEN}</center>
+<center>
+    <div class="pagination" style="margin-top: -15px">
+        <ul class="vnp-pagination">
+        {PAGE_GEN}
+        </ul>
+    </div>
+</center>
 <!-- END: main -->

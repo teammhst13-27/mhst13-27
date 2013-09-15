@@ -1,5 +1,5 @@
 <!-- BEGIN: main -->
-<a class="btn btn-mini btn-primary" href="{ADD_LINK}"><i class="icon-plus icon-white"></i>  {LANG.add_subject}</a>
+<span class="vnp-add"><a class="add_icon" href="{ADD_LINK}">{LANG.add_subject}</a></span>
 <form action="{FORM_ACTION}" method="get">    
     <input name="{NV_NAME_VARIABLE}" type="hidden" value="{MODULE_NAME}" />
     <input name="{NV_OP_VARIABLE}" type="hidden" value="{OP}" />
@@ -24,6 +24,7 @@
         <td>{LANG.subject_name}</td>
         <td style="width:100px">{LANG.subject_code}</td>
         <td style="width:100px">{LANG.faculty}</td>
+        <td style="width:100px">{LANG.clpart}</td>
         <td style="width:150px">{LANG.status}</td>
         <td style="width:100px">{LANG.feature}</td>
         
@@ -34,6 +35,7 @@
             <td style="width:150px"><strong>{ROW.subject_name}</strong></td>
             <td>{ROW.subject_code}</td>
             <td>{ROW.faculty}</td>
+            <td>{ROW.clpart}</td>
             <td>
                 <select id="change_status_{ROW.subject_id}" onchange="nv_chang_status('{ROW.subject_id}', 'subject');">
                     <!-- BEGIN: status -->
@@ -50,9 +52,15 @@
     <!-- END: row -->
     <tfoot>
         <tr>
-            <td colspan="5" align="center"></td>
+            <td colspan="6" align="center"></td>
         </tr>
     </tfoot>
 </table>
-<center>{PAGE_GEN}</center>
+<center>
+    <div class="pagination" style="margin-top: -15px">
+        <ul class="vnp-pagination">
+        {PAGE_GEN}
+        </ul>
+    </div>
+</center>
 <!-- END: main -->

@@ -9,8 +9,8 @@
 
 if( ! defined( 'NV_IS_FILE_ADMIN' ) || !defined( 'SUBJECT_FUNCTION' ) ) die( 'Stop!!!' );
 
-$subject = $nv_Request->get_typed_array( 'subject', 'post', 'string', array() );
-if( !isset($subject['practice_require'] ) ) $subject['practice_require'] = 0;
+$_subject = $nv_Request->get_typed_array( 'subject', 'post', 'string', array() );
+$subject = array_merge($subject,$_subject);
 $_msg = '';
 $_id = 0;
 
@@ -24,6 +24,7 @@ if( $subjectid )
 			`subject_desc`= " .  $db->dbescape( $subject['subject_desc'] ) . ",
 			`faculty_id` = " . intval( $subject['faculty_id'] ) . ",
 			`practice_require` = " . intval( $subject['practice_require'] ) . ",
+			`clpart` = " . intval( $subject['clpart'] ) . ",
 			`edit_time`=" . NV_CURRENTTIME . " 
 	WHERE `subject_id` =" . $subjectid;
 	$db->sql_query( $sql );
@@ -34,7 +35,6 @@ else
 	$result = $db->sql_query( $sql );
 	if( $db->sql_numrows( $result ) == 0 )
 	{
-		if( !isset($subject['practice_require']) ) $subject['practice_require'] = 0;
 		$sql = "INSERT INTO `" . NV_PREFIXLANG . "_" . $module_data . "_subject` VALUES (
 				NULL,
 				" . $admin_info['admin_id'] . ",
@@ -47,6 +47,7 @@ else
 				" . NV_CURRENTTIME . ",
 				" . NV_CURRENTTIME . ",
 				" . $subject['practice_require'] . ",
+				" . intval( $subject['clpart'] ) . ",
 				1);";
 		$_id = $db->sql_query_insert_id( $sql );
 	}
@@ -70,8 +71,8 @@ if( $db->sql_affectedrows() > 0 )
 		$msg = array( 'content' => $lang_module['action_ok'], 'type' => 'success' );
 		nv_insert_logs( NV_LANG_DATA, $module_name, 'Add subject', "SUBJECT ID:  " . $_id, $admin_info['userid'] );
 	}
-	Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&op=subject&action=add" );
-	die();
+	//Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&op=subject&action=add" );
+	//die();
 }
 else
 {

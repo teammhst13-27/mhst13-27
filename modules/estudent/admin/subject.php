@@ -18,7 +18,8 @@ $search = array(
 					'q' => '',
 					'faculty_id' => 0,
 					'per_page' => 10,
-					'page' => 0
+					'page' => 0,
+					'all_page' => 1
 					);
 if( $nv_Request->get_string( 'search', 'get', '' ) == 1 )
 {
@@ -35,7 +36,8 @@ $subject = array(
 				'subject_name' => '',
 				'subject_alias' => '', 
 				'subject_desc' => '',
-				'practice_require' => 0
+				'practice_require' => 0,
+				'clpart' => 1
 			);
 
 $xtpl = new XTemplate( "add_subject.tpl", NV_ROOTDIR . "/themes/" . $global_config['module_theme'] . "/modules/" . $module_file );
@@ -48,7 +50,7 @@ $action = $nv_Request->get_string( 'action', 'get', '' );
 
 if( $nv_Request->get_int( 'save', 'post' ) == '1' )
 {
-	$subject = $nv_Request->get_typed_array( 'subject', 'post', 'string', array() );
+	//$subject = $nv_Request->get_typed_array( 'subject', 'post', 'string', array() );
 	require( 'subject_functions.php' );
 }
 else
@@ -77,6 +79,7 @@ else
 			{
 				$_s = "WHERE " . implode(' AND ', $_s );
 			}
+			else $_s = '';
 		}
 		$base_url = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op . "&amp;search=1&amp;per_page=" . $search['per_page'] . "&amp;faculty_id=" . $search['faculty_id'] . "&amp;q=" . $search['q'];
 		
@@ -85,7 +88,7 @@ else
 		$result = $db->sql_query( $sql );
 		
 		$result_all = $db->sql_query( "SELECT FOUND_ROWS()" );
-		list( $all_page ) = $db->sql_fetchrow( $result_all );
+		list( $search['all_page'] ) = $db->sql_fetchrow( $result_all );
 	
 		if( $db->sql_numrows( $result ) > 0 )
 		{
@@ -157,7 +160,7 @@ if( $action == 'add' )
 }
 else
 {
-	$generate_page = nv_generate_page( $base_url, $all_page, $search['per_page'], $search['page'] );
+	$generate_page = nv_generate_page( $base_url, $search['all_page'], $search['per_page'], $search['page'] );
 	$xtpl->assign( 'SEARCH_FACULTY', getTaxSelectBox( 'faculty', 'faculty_id', $search['faculty_id'] ) );
 	$showNumber = array();
 	$i = 1;

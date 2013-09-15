@@ -4,7 +4,7 @@
  * @Project NUKEVIET 3.x
  * @Author VINADES.,JSC (contact@vinades.vn)
  * @Copyright (C) 2013 VINADES.,JSC. All rights reserved
- * @Createdate Mon, 22 Jul 2013 03:30:24 GMT
+ * @Createdate Thu, 12 Sep 2013 03:52:47 GMT
  */
 
 if ( ! defined( 'NV_MAINFILE' ) )
@@ -12,14 +12,14 @@ if ( ! defined( 'NV_MAINFILE' ) )
  die( 'Stop!!!' );
 }
 
-$db_config['dbhost'] = 'localhost';
+$db_config['dbhost'] = '127.0.0.1';
 $db_config['dbport'] = '';
-$db_config['dbname'] = 'estudent_mhst';
-$db_config['dbuname'] = 'estudent_mhst';
-$db_config['dbpass'] = ',%evq}CaoWSR';
+$db_config['dbname'] = 'estudent';
+$db_config['dbuname'] = 'root';
+$db_config['dbpass'] = '';
 $db_config['prefix'] = 'nv3';
 
 $global_config['idsite'] = 0;
-$global_config['sitekey'] = '75e302c423a942561fbf8c60b64e4b29';// Do not change sitekey!
+$global_config['sitekey'] = 'cba50cc7f213e739b4ee2d0cd563b60d';// Do not change sitekey!
 
 ?>

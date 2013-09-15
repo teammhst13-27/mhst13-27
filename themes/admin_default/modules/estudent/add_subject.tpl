@@ -28,6 +28,12 @@
 		</tbody>
         <tbody>
 			<tr>
+				<td style="width:150px"><strong>{LANG.clpart}</strong></td>
+				<td><input class="txt-half" type="number" value="{SUBJECT.clpart}" name="subject[clpart]" id="subject_clpart" maxlength="255" /></td>
+			</tr>
+		</tbody>
+        <tbody>
+			<tr>
 				<td style="width:150px"><strong>{LANG.practice_require}</strong></td>
 				<td><input class="txt-half" type="checkbox" {SUBJECT.practice_require} value="1" name="subject[practice_require]" id="subject_practice_require" maxlength="255" /></td>
 			</tr>

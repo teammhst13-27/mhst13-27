@@ -4,6 +4,22 @@
  * @Copyright (C) 2012 VINADES.,JSC. All rights reserved
  * @Createdate 1 - 31 - 2010 5 : 12
  */
+ 
+
+Array.prototype.getUnique = function(){
+   var u = {}, a = [];
+   for(var i = 0, l = this.length; i < l; ++i){
+      if(u.hasOwnProperty(this[i])) {
+         continue;
+      }
+      a.push(this[i]);
+      u[this[i]] = 1;
+   }
+   return a;
+}
+
+var checkedInputs = new Array();
+var titleData = new Array();
 
 function nv_chang_weight(vid) {
 	var nv_timer = nv_settimeout_disable('change_weight_' + vid, 5000);
@@ -30,6 +46,15 @@ function nv_ajax_chang_res(res) {
 	return;
 }
 
+function vnp_update_class(class_id, field, value)
+{
+	var nv_timer = nv_settimeout_disable('change_class_' + field + '_' + class_id, 5000);
+	nv_ajax("post", script_name, nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=class_ajax_action&action=field&field_name=' + field + '&field_value=' + value + '&listid=' + class_id + '&num=' + nv_randomPassword(8), '', 'nv_ajax_chang_res');
+	return;
+}
+function vnp_class_change_res(res)
+{
+}
 function nv_module_del(listdid, table) {
 	if (confirm(nv_is_del_confirm[0])) {
 		nv_ajax('post', script_name, nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=' + table + '_ajax_action&action=delete&listid=' + listdid, '', 'nv_module_del_result');
@@ -65,3 +90,56 @@ function res_get_alias(res) {
 	}
 	return false;
 }
+
+function getIDs( mode, container, IDs )
+{
+	if( mode == 'teacher' || mode == 'subject' || mode == 'class' || mode == 'base_class' )
+	{
+		var _currentIDs = document.getElementById(container).value;
+		if( !_currentIDs  && _currentIDs != 0 )
+		{
+			if( typeof IDs == 'undefined' ) IDs = '';
+		}
+		else IDs = _currentIDs;
+		var _url = script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=ajax_get_item&mode=' + mode + '&container=' + container + '&listid=' + IDs;
+		nv_open_browse_file( _url, 'NVImg', '950', '600', 'resizable=no,scrollbars=no,toolbar=no,location=no,status=no' )
+	}
+}
+
+function setCookieSelected(listid, mode)
+{
+	if( typeof listid == 'undefined' ) listid = '';
+	if( nv_setCookie(vnp_cookie_prefix + '_vnp_selected_items_' + mode, listid) );
+}
+
+function insertToPost(container, checkedInputs, titleData)
+{
+	$('#' + container, opener.document).val(checkedInputs);
+	var html_title = '';
+	var _titleData = new Array();
+	_titleData = titleData.split(',');
+	for( var i = 0; i < _titleData.length; i++ )
+	{
+		if( _titleData[i] != '' )
+		html_title += '<li>' + _titleData[i] + '</li>';
+	}
+	$('#' + container + '_title', opener.document).html(html_title);
+	window.close();
+}
+
+$(document).ready(function() {
+	var pageData = '';
+	$('ul.vnp-pagination').each(function() {
+		$(this).find('*').each(function(){
+			if( $(this).prop("tagName") == 'STRONG' )
+			{
+				pageData += '<li class="active"><a><strong>' + $(this).html() + '</strong></a></li>';
+			}
+			else if( $(this).prop("tagName") == 'A' )
+			{
+				pageData += '<li><a href="' + $(this).attr('href') + '">' + $(this).html() + '</a></li>';
+			}
+		});
+		$(this).html(pageData);
+    });    
+});

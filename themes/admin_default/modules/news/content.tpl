@@ -35,7 +35,7 @@
 									<tbody style="background:#fff;">
 										<!-- BEGIN: catid -->
 										<tr style="border: 1px solid #CCCCCC">
-											<td><input style="margin-left: {CATS.space}px;" type="checkbox" value="{CATS.catid}" name="catids[]" class="news_checkbox" {CATS.checked} {CATS.disabled}> {CATS.title} </td>
+											<td><input style="margin-left: {CATS.space}px;" type="checkbox" value="{CATS.catid}" name="catids[]" class="news_checkbox" {CATS.checked} {CATS.disabled} /> {CATS.title} </td>
 											<td id="catright_{CATS.catid}" style="{CATS.catiddisplay}"><input type="radio" name="catid" value="{CATS.catid}" {CATS.catidchecked}/> {LANG.content_checkcat} </td>
 										</tr>
 										<!-- END: catid -->

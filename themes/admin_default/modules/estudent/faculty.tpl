@@ -1,5 +1,5 @@
 <!-- BEGIN: main -->
-<a class="btn btn-mini btn-primary" href="{ADD_LINK}"><i class="icon-plus icon-white"></i>  {LANG.add_faculty}</a>
+<span class="vnp-add"><a class="add_icon" href="{ADD_LINK}">{LANG.add_faculty}</a></span>
 <form action="{FORM_ACTION}" method="post">
 	<input name="save" type="hidden" value="1" />
 	<table class="tab1">
