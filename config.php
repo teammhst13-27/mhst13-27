@@ -16,7 +16,7 @@ $db_config['dbhost'] = '127.0.0.1';
 $db_config['dbport'] = '';
 $db_config['dbname'] = 'estudent';
 $db_config['dbuname'] = 'root';
-$db_config['dbpass'] = '';
+$db_config['dbpass'] = '123';
 $db_config['prefix'] = 'nv3';
 
 $global_config['idsite'] = 0;

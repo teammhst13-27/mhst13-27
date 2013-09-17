@@ -219,16 +219,73 @@ function class_proccess(class_week, class_time)
 	alert(class_time);
 	$('#class_ctner').html(class_time);
 }
-function updateStdMark(stdID, class_id, value)
+function vnp_roll_call( class_id, student_id )
 {
-	var nv_timer = nv_settimeout_disable('std-' + stdID, 1000);
+	if( typeof value === 'undefined' || value == 2 || typeof class_id === 'undefined' || typeof student_id === 'undefined' )
+	{
+		return;
+	}
+	else
+	{
+		value = $('#change_student_roll_call_' + student_id).val();
+		var nv_timer = nv_settimeout_disable('change_student_roll_call_' + student_id, 1000);
+		
+		var time = $('#roll-call-dat').val();
+	
+		$.ajax({
+			type:'POST', 
+			url: nv_siteroot + 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=roll_call',
+			data:{stdid : student_id, class_id: class_id, value: value, time : time},
+			success: function(data){
+				res = data.split('_');
+				if(res[0] == 'ok')
+				{
+					nv_settimeout_disable('change_student_roll_call_' + student_id,1);
+				}
+				else
+				{
+					alert('Có lỗi sảy ra');
+				}
+			}
+		});
+	}
+}
+function updateStdMark(stdID, class_id, type, value)
+{
+	//alert('std-' + type + '-' + stdID);
+	var nv_timer = nv_settimeout_disable('std-' + type + '-' + stdID, 5000);
 	
 	$.ajax({
 		type:'POST', 
 		url: nv_siteroot + 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=update_mark',
-		data:{stdid : stdID, class_id: class_id, value: value},
+		data:{stdid : stdID, class_id: class_id, type: type, value: value},
 		success: function(data){
-			nv_update_mark_res(data)
+			//nv_update_mark_res(data)
+			res = data.split('_');
+			if(res[0] == 'ok')
+			{
+				nv_settimeout_disable('std-' + type + '-' + res[1],1);
+			}
+			else
+			{
+				alert('Có lỗi sảy ra');
+			}
+		}
+	});
+}
+function SentMark(class_id)
+{
+	$.ajax({
+		type:'POST', 
+		url: nv_siteroot + 'index.php?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=update_mark',
+		data:{sent_mark : 1, class_id: class_id},
+		success: function(res){
+			res = res.split('_');
+			if(res[0] == 'ok')
+			{
+				alert('Gửi điểm thành công!');
+			}
+			else alert('Lỗi gửi điểm!');
 		}
 	});
 }
@@ -238,6 +295,10 @@ function nv_update_mark_res(res)
 	if(res[0] == 'ok')
 	{
 		nv_settimeout_disable('std-' + res[1],1);
+	}
+	else
+	{
+		alert('Có lỗi sảy ra');
 	}
 }
 $(document).ready(function() {

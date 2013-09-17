@@ -4,7 +4,7 @@
  * @Project NUKEVIET 3.x
  * @Author VINADES.,JSC (contact@vinades.vn)
  * @Copyright (C) 2013 VINADES.,JSC. All rights reserved
- * @Createdate Sun, 15 Sep 2013 14:50:40 GMT
+ * @Createdate Mon, 16 Sep 2013 19:10:13 GMT
  */
 
 if ( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
@@ -105,7 +105,7 @@ $global_config['site_phone']='';
 $global_config['site_timezone']='byCountry';
 $global_config['spadmin_add_admin']=1;
 $global_config['str_referer_blocker']=0;
-$global_config['timestamp']=110;
+$global_config['timestamp']=152;
 $global_config['upload_checking_mode']='mild';
 $global_config['useactivate']=2;
 $global_config['version']='3.5.00';

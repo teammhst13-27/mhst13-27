@@ -16,6 +16,9 @@ $form_action = '';
 $term_id = $nv_Request->get_int( 'term_id', 'post,get', 0 );
 $class_id = $nv_Request->get_int( 'class_id', 'post,get', 0 );
 
+$search['per_page'] = $nv_Request->get_int( 'per_page', 'get', 40 );
+$search['page'] = $nv_Request->get_int( 'page', 'get', 0 );
+
 if( $class_id > 0 )
 {
 	$sql = "SELECT * FROM `" . NV_PREFIXLANG . "_" . $module_data . "_class` WHERE `class_id`=" . $class_id;
@@ -28,8 +31,11 @@ if( $class_id > 0 )
 	if( $db->sql_numrows( $result ) == 1 )
 	{
 		$class = $db->sql_fetchrow( $result );
-		$sql = "SELECT * FROM `" . NV_PREFIXLANG . "_" . $module_data . "_student_" . $class['faculty_id'] . "_" . $globalTax['term'][$class['term_id']]['year'] . "` WHERE ( `class_ids`='" . $class_id . "' OR `class_ids` REGEXP '^" . $class_id . "\\\,' OR `class_ids` REGEXP '\\\," . $class_id . "\\\,' OR `class_ids` REGEXP '\\\," . $class_id . "\$')";
+		$sql = "SELECT SQL_CALC_FOUND_ROWS * FROM `" . NV_PREFIXLANG . "_" . $module_data . "_student_" . $class['faculty_id'] . "_" . $globalTax['term'][$class['term_id']]['year'] . "` WHERE ( `class_ids`='" . $class_id . "' OR `class_ids` REGEXP '^" . $class_id . "\\\,' OR `class_ids` REGEXP '\\\," . $class_id . "\\\,' OR `class_ids` REGEXP '\\\," . $class_id . "\$') ORDER BY `student_id` LIMIT " . $search['page'] . "," . $search['per_page'];
 		$result = $db->sql_query( $sql );
+		
+		$result_all = $db->sql_query( "SELECT FOUND_ROWS()" );
+		list( $all_page ) = $db->sql_fetchrow( $result_all );
 		
 		$class['year'] = $globalTax['term'][$class['term_id']]['year'];
 			
@@ -37,15 +43,45 @@ if( $class_id > 0 )
 		{
 			while($student = $db->sql_fetchrow( $result ))
 			{
-				
-				$mark = unserialize($student['study_result']);
-				$student['mark'] = $mark[$class_id];
+				if( !empty($student['study_result']) )
+				{
+					$mark = unserialize($student['study_result']);
+					//p($mark);
+					if( isset($mark[$class_id]) )
+					{
+						$time_mark = $mark[$class_id]['time'];
+						$end_mark = $mark[$class_id]['end'];
+					}
+					else
+					{
+						$time_mark = $end_mark = '';
+					}
+				}
+				else $time_mark = $end_mark = '';
 				$student['class_id'] = $class_id;
+				if( $class['enter_mark'] == 1 || $class['enter_mark'] == 0 )
+				{
+					$student['time_mark'] = '<input type="text" id="std-time-' . $student['student_id'] . '" value="' . $time_mark . '" class="std-id" onchange="updateStdMark(' . $student['student_id'] . ', ' . $class['class_id'] . ',\'time\', this.value)" />';
+					
+					$student['end_mark'] = '<input type="text" id="std-end-' . $student['student_id'] . '" value="' . $end_mark . '" class="std-id" onchange="updateStdMark(' . $student['student_id'] . ', ' . $class['class_id'] . ',\'end\', this.value)" />';
+				}
+				else
+				{
+					$student['time_mark'] = $time_mark;
+					$student['end_mark'] = $end_mark;
+				}
 				$xtpl->assign( 'ROW', $student );
 				$xtpl->parse( 'main.loop' );
 			}
 		}
 	}
+	
+	$base_url = NV_BASE_SITEURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op . "/mark&amp;class_id=" . $class_id;
+	
+	$generate_page = nv_generate_page( $base_url, $all_page, $search['per_page'], $search['page'] );
+	//p($generate_page);
+	$xtpl->assign( 'PAGE_GEN', $generate_page );
+	
 	$xtpl->assign( 'CLASS', $class );
 	$vnp_content = '';
 	$xtpl->parse( 'main' );
@@ -129,6 +165,12 @@ else
 		$i = 1;
 		while( $row = $db->sql_fetchrow( $result ) )
 		{
+			if( $row['enter_mark'] == 1 || $row['enter_mark'] == 0 )
+			{
+				$title = 'Nhập điểm';
+			}
+			else $title = 'Xem điểm';
+			$row['label'] = $title;
 			$array_status = array( $lang_module['deactive'], $lang_module['active'] );
 			$row['class'] = ( ++$i % 2 ) ? " class=\"second\"" : "";
 			$row['url_enter_mark'] = NV_BASE_SITEURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op . "/mark&amp;class_id=" . $row['class_id'];

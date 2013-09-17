@@ -1,16 +1,20 @@
 <!-- BEGIN: main -->
-<a href="javascript:SentMark(); return false" class="vnp-button">Xác nhận gửi điểm</a>
+<a href="javascript:SentMark({CLASS.class_id}); return false;" class="vnp-button">Xác nhận gửi điểm</a>
 <table class="tab1">
 	<caption>Nhập điểm cho lớp {CLASS.class_name} - {CLASS.year}</caption>
     <thead>
-        <td>{LANG.class_name}</td>
-        <td>Điểm</td>
+    	<tr>
+            <td>{LANG.class_name}</td>
+            <td>Điểm quá trình(mỗi điểm cách nhau dấu - )</td>
+            <td>Điểm cuối kì</td>
+      	</tr>
     </thead>
     <!-- BEGIN: loop -->
     <tbody class="{ROW.class}">
         <tr>
             <td style="width:150px"><strong>{ROW.student_name}</strong></td>
-            <td style="width:150px"><input type="text" id="std-{ROW.student_id}" value="{ROW.mark}" class="std-id" onchange="updateStdMark({ROW.student_id}, {ROW.class_id}, this.value)" /></strong></td>
+            <td style="width:150px">{ROW.time_mark}</strong></td>
+            <td style="width:150px">{ROW.end_mark}</strong></td>
         </tr>
     </tbody>
     <!-- END: loop -->
